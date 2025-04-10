@@ -1,5 +1,4 @@
 using System.Numerics;
-using Content.Shared._Lavaland.LimitedUsage;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Foldable;
@@ -33,7 +32,6 @@ public abstract partial class SharedFultonSystem : EntitySystem
     [Dependency] private   readonly SharedStackSystem _stack = default!;
     [Dependency] protected readonly SharedTransformSystem TransformSystem = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] protected readonly NoLavalandUsageSystem NoLavalandSystem = default!;
 
     [ValidatePrototypeId<EntityPrototype>] public const string EffectProto = "FultonEffect";
     protected static readonly Vector2 EffectOffset = Vector2.Zero;
@@ -116,12 +114,6 @@ public abstract partial class SharedFultonSystem : EntitySystem
 
         if (TryComp<FultonBeaconComponent>(args.Target, out var beacon))
         {
-            if (NoLavalandSystem.IsApply(uid) || NoLavalandSystem.IsApply(args.Target.Value))
-            {
-                _popup.PopupClient(Loc.GetString("fulton-invalid-lavaland"), uid, uid);
-                return;
-            }
-
             if (!_foldable.IsFolded(args.Target.Value))
             {
                 component.Beacon = args.Target.Value;
@@ -154,14 +146,6 @@ public abstract partial class SharedFultonSystem : EntitySystem
             _popup.PopupClient(Loc.GetString("fulton-fultoned"), uid, uid);
             return;
         }
-
-// start-backmen: fix
-        if (NoLavalandSystem.IsApply(component.Beacon.Value) || NoLavalandSystem.IsApply(args.Target.Value))
-        {
-            _popup.PopupClient(Loc.GetString("fulton-invalid-lavaland"), uid, uid);
-            return;
-        }
-// end-backmen: fix
 
         args.Handled = true;
 
@@ -199,7 +183,7 @@ public abstract partial class SharedFultonSystem : EntitySystem
         return true;
     }
 
-    protected bool CanFulton(EntityUid uid)
+    protected virtual bool CanFulton(EntityUid uid)
     {
         var xform = Transform(uid);
 

@@ -123,9 +123,6 @@ public sealed partial class MaterialReclaimerComponent : Component
     /// </remarks>
     [DataField, AutoNetworkedField]
     public int ItemsProcessed;
-
-    [DataField] // Backmen
-    public bool AlwaysGib = false;
 }
 
 [NetSerializable, Serializable]

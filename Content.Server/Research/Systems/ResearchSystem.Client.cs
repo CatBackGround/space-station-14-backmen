@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Research.Components;
 
@@ -24,8 +23,7 @@ public sealed partial class ResearchSystem
 
     private void OnClientSelected(EntityUid uid, ResearchClientComponent component, ResearchClientServerSelectedMessage args)
     {
-        var xform = Transform(uid);
-        if (!TryGetServerById(args.ServerId, xform.MapID, out var serveruid, out var serverComponent))
+        if (!TryGetServerById(args.ServerId, out var serveruid, out var serverComponent))
             return;
 
         UnregisterClient(uid, component);
@@ -58,16 +56,10 @@ public sealed partial class ResearchSystem
 
     private void OnClientMapInit(EntityUid uid, ResearchClientComponent component, MapInitEvent args)
     {
-        var xform = Transform(uid);
         var allServers = new List<Entity<ResearchServerComponent>>();
-        var query = AllEntityQuery<ResearchServerComponent, TransformComponent>();
-        while (query.MoveNext(out var serverUid, out var serverComp, out var serverXform))
+        var query = AllEntityQuery<ResearchServerComponent>();
+        while (query.MoveNext(out var serverUid, out var serverComp))
         {
-            // backmen edit: RnD servers are local for a map
-            if (serverXform.MapID != xform.MapID)
-                continue;
-            // backmen edit end
-
             allServers.Add((serverUid, serverComp));
         }
 
@@ -91,16 +83,10 @@ public sealed partial class ResearchSystem
             return;
 
         TryGetClientServer(uid, out _, out var serverComponent, component);
-        var mapId = Transform(uid).MapID;
 
-        // backmen change start
-        var servers = GetAvailableServers(mapId).ToArray();
-
-        var state = new ResearchClientBoundInterfaceState(servers.Length,
-            servers.Select(x => x.Comp.ServerName).ToArray(),
-            servers.Select(x => x.Comp.Id).ToArray(),
-            serverComponent?.Id ?? -1);
-        // backmen change end
+        var names = GetServerNames();
+        var state = new ResearchClientBoundInterfaceState(names.Length, names,
+            GetServerIds(), serverComponent?.Id ?? -1);
 
         _uiSystem.SetUiState(uid, ResearchClientUiKey.Key, state);
     }

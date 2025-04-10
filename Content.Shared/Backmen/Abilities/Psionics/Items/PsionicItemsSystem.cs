@@ -54,12 +54,14 @@ public sealed class PsionicItemsSystem : EntitySystem
             return;
         // does the user already has this power?
         var componentType = _componentFactory.GetRegistration(component.Power).Type;
-        if (HasComp(args.Equipee, componentType))
+        if (EntityManager.HasComponent(args.Equipee, componentType))
             return;
 
 
         var newComponent = (Component) _componentFactory.GetComponent(componentType);
-        AddComp(args.Equipee, newComponent);
+        newComponent.Owner = args.Equipee;
+
+        EntityManager.AddComponent(args.Equipee, newComponent);
 
         component.IsActive = true;
     }

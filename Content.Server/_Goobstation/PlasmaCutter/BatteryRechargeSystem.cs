@@ -60,7 +60,7 @@ namespace Content.Server._Goobstation.Plasmacutter
             string fuelType,
             BatteryRechargeComponent? recharge = null)
         {
-            if (!Resolve(uid, ref recharge, false))
+            if (!Resolve(uid, ref recharge))
                 return;
 
             var availableMaterial = _materialStorage.GetMaterialAmount(uid, fuelType);

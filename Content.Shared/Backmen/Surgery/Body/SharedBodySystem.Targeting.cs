@@ -488,7 +488,7 @@ public partial class SharedBodySystem
 
     public bool TryEvadeDamage(Entity<MobStateComponent?> uid, float evadeChance)
     {
-        if (!Resolve(uid, ref uid.Comp, false))
+        if (!Resolve(uid, ref uid.Comp))
             return false;
 
         if (!CanEvadeDamage(uid))

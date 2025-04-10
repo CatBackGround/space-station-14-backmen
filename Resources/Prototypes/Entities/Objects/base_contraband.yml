@@ -6,14 +6,6 @@
   - type: Contraband
     severity: Magical
 
-# any type of psionic items
-- type: entity
-  id: BasePsionicContraband
-  abstract: true
-  components:
-  - type: Contraband
-    severity: Magical
-
 # non-stealth syndicate stuff
 - type: entity
   id: BaseSyndicateContraband

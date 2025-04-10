@@ -68,8 +68,7 @@
     back:
     - MedkitCombatFilled
     - BoxSurvivalSecurity
-    - MagazineRifleFamas556UEG
-    - MagazinePistol9x17
+    - MagazineRifle
   #innerClothingSkirt: ClothingUniformJumpskirtSec
   #satchel: ClothingBackpackSatchelSecurityFilled
   #duffelbag: ClothingBackpackDuffelSecurityFilled

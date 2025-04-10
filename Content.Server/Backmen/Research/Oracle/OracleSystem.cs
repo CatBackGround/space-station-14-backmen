@@ -168,11 +168,7 @@ public sealed class OracleSystem : EntitySystem
         var spawnPos = new EntityCoordinates(xform.Coordinates.EntityId,
             xform.Coordinates.Position + xform.LocalRotation.ToWorldVec());
 
-        foreach (var item in _entityTable
-                     .GetSpawns(_prototypeManager.Index<EntityTablePrototype>(ResearchDisk5000).Table))
-        {
-            Spawn(item, spawnPos);
-        }
+        Spawn(ResearchDisk5000, spawnPos);
 
         DispenseLiquidReward(ent);
 
@@ -380,11 +376,7 @@ public sealed class OracleSystem : EntitySystem
         var spawnPos = new EntityCoordinates(xform.Coordinates.EntityId,
             xform.Coordinates.Position + xform.LocalRotation.ToWorldVec());
 
-        foreach (var itemTable in _entityTable
-                     .GetSpawns(_prototypeManager.Index<EntityTablePrototype>(ResearchDisk5000).Table))
-        {
-            Spawn(itemTable, spawnPos);
-        }
+        Spawn(ResearchDisk5000, spawnPos);
 
         DispenseLiquidReward(uid);
 

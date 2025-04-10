@@ -18,8 +18,6 @@
   canBeAntag: false
   jobEntity: DroneBPLA
   startingGear: RobotGear # for char preview only
-  whitelisted: true
-  discordRequired: true
 
 - type: startingGear
   id: RobotGear
