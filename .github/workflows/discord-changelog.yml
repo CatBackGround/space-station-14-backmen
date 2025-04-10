@@ -3,7 +3,7 @@ name: Post Changelog to Discord
 on:
   workflow_run:
     workflows: ["Publish"]  # Имя workflow, после которого должен запускаться этот скрипт
-    branches: [main]       # Ветка, для которой триггерится workflow
+    branches: [master]       # Ветка, для которой триггерится workflow
     types:
       - completed
 
